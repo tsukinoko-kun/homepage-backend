@@ -1,15 +1,19 @@
+namespace homepage_backend
+
 open System
 open Microsoft.AspNetCore.Builder
 open Microsoft.Extensions.Hosting
 
-[<EntryPoint>]
-let main args =
-    let builder = WebApplication.CreateBuilder(args)
-    let app = builder.Build()
+module Program =
+    open System.Threading.Tasks
 
-    app.MapGet("/", Func<string>(fun () -> "Hello World!")) |> ignore
+    [<EntryPoint>]
+    let main args =
+        let builder = WebApplication.CreateBuilder(args)
+        let app = builder.Build()
 
-    app.Run()
+        app.MapGet("/", Func<Task<string>>(fun () -> message.send("mail@frank-mayer.io","Hello World"))) |> ignore
 
-    0 // Exit code
+        app.Run()
 
+        0 // Exit code

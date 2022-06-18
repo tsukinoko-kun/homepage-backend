@@ -1,7 +1,3 @@
-
-# Originally created by https://www.gitignore.io/api/windows,linux,visualstudio,visualstudiocode,osx,xamarinstudio,f#,monodevelop,vim,emacs,node,bower on 2016-03-19
-# Last updated: 2016-03-20
-
 ### Windows ###
 # Windows image file caches
 Thumbs.db
@@ -292,6 +288,7 @@ paket-files/
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
+!.vscode/extensions.json
 
 
 
