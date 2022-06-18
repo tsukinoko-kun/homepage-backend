@@ -3,7 +3,6 @@ namespace homepage_backend
 open System
 open System.Text;
 open System.Net.Http
-open System.Net.Http.Json
 
 module message =
 

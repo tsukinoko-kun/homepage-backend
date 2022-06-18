@@ -5,6 +5,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Controllers/message.fs" />
+    <Compile Include="MessageInput.fs" />
     <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 </Project>
