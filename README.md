@@ -1,6 +1,6 @@
 ## Required Software
 
-.NET 6 SDK or Visual Studio (.NET for Web, F#)
+.NET 6 SDK or Visual Studio 2022 (.NET for Web, F#)
 
 ## Build
 
