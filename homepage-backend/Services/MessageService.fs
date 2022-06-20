@@ -1,10 +1,10 @@
-namespace homepage_backend
+namespace homepage_backend.Services
 
 open System
 open System.Text;
 open System.Net.Http
 
-module message =
+module MessageService =
 
     let env key =
         match Environment.GetEnvironmentVariable key with

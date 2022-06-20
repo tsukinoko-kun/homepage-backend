@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
+
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>homepage_backend</RootNamespace>
   </PropertyGroup>
+
   <ItemGroup>
-    <Compile Include="Controllers/message.fs" />
-    <Compile Include="MessageInput.fs" />
+    <Compile Include="Services/MessageService.fs" />
+    <Compile Include="Controllers/MessageController.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
+
 </Project>
