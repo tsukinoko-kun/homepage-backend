@@ -10,6 +10,8 @@ dotnet publish ./homepage-backend.sln --arch x64 --configuration Release --outpu
 
 Output directory is `./bin`
 
+Run `./bin/homepage-backend` (Mac & Linux) or `./bin/homepage-backend.exe` (Windows)
+
 ## Environment Variables
 
 - `MAILGUN_API_KEY` Mailgun API Key
