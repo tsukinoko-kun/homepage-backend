@@ -20,4 +20,4 @@ type MessageController () =
             else
                 MessageService.send (mail, message)
         with exn ->
-            Task.FromResult exn.Message
+            Task.FromResult $"{exn.Message}\n{exn.StackTrace}"
