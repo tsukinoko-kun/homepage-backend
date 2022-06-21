@@ -3,6 +3,7 @@
 open System
 open Microsoft.AspNetCore.Mvc
 open homepage_backend.Services
+open System.Threading.Tasks
 
 [<ApiController>]
 [<Route("[controller]")>]
@@ -11,9 +12,12 @@ type MessageController () =
 
     [<HttpGet>]
     member _.Get(mail: string, message: string) =
-        if String.IsNullOrWhiteSpace(mail) then
-            failwith "Mail is not specified"
-        elif String.IsNullOrWhiteSpace(message) then
-            failwith "Message is not specified"
-        else
-            (mail, message) |> MessageService.send
+        try
+            if String.IsNullOrWhiteSpace(mail) then
+                failwith "Mail is not specified"
+            elif String.IsNullOrWhiteSpace(message) then
+                failwith "Message is not specified"
+            else
+                MessageService.send (mail, message)
+        with exn ->
+            Task.FromResult exn.Message
