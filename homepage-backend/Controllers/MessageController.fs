@@ -1,5 +1,6 @@
 ﻿namespace homepage_backend.Controllers
 
+open System
 open Microsoft.AspNetCore.Mvc
 open homepage_backend.Services
 
@@ -10,4 +11,9 @@ type MessageController () =
 
     [<HttpGet>]
     member _.Get(mail: string, message: string) =
-        (mail, message) |> MessageService.send
+        if String.IsNullOrWhiteSpace(mail) then
+            failwith "Mail is not specified"
+        elif String.IsNullOrWhiteSpace(message) then
+            failwith "Message is not specified"
+        else
+            (mail, message) |> MessageService.send
