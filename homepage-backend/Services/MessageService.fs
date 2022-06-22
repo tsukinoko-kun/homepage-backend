@@ -27,7 +27,7 @@ module MessageService =
         request.Content <- multipartContent
         task {
             let! resp = httpClient.SendAsync request
-            return resp.Content.ReadAsStringAsync()
+            return! resp.Content.ReadAsStringAsync()
         }
         |> Async.AwaitTask
         |> Async.RunSynchronously
