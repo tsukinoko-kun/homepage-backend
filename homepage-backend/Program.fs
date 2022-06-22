@@ -8,7 +8,6 @@ open dotenv.net
 module Program =
     let exitCode = 0
         
-
     [<EntryPoint>]
     let main args =
         DotEnv
