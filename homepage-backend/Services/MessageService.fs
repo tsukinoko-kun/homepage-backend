@@ -15,21 +15,17 @@ module MessageService =
     let domainName = env "MAILGUN_DOMAIN_NAME"
 
     let send (mail: string, message: string) =
-        use httpClient = new HttpClient()
-        use request = new HttpRequestMessage(new HttpMethod("POST"), $"https://api.mailgun.net/v3/{domainName}/messages")
-        let mutable base64authorization = Convert.ToBase64String (Encoding.ASCII.GetBytes ($"api:{apiKey}"))
-        request.Headers.TryAddWithoutValidation ("Authorization", $"Basic {base64authorization}") |> ignore
-        let mutable multipartContent = new MultipartFormDataContent()
-        multipartContent.Add (new StringContent(mail), "from")
-        multipartContent.Add (new StringContent("mail@frank-mayer.io"), "to")
-        multipartContent.Add (new StringContent("New message from homepage"), "subject")
-        multipartContent.Add (new StringContent(message), "text")
-        request.Content <- multipartContent
         task {
+            use httpClient = new HttpClient()
+            use request = new HttpRequestMessage(new HttpMethod("POST"), $"https://api.mailgun.net/v3/{domainName}/messages")
+            let mutable base64authorization = Convert.ToBase64String (Encoding.ASCII.GetBytes ($"api:{apiKey}"))
+            request.Headers.TryAddWithoutValidation ("Authorization", $"Basic {base64authorization}") |> ignore
+            let mutable multipartContent = new MultipartFormDataContent()
+            multipartContent.Add (new StringContent(mail), "from")
+            multipartContent.Add (new StringContent("mail@frank-mayer.io"), "to")
+            multipartContent.Add (new StringContent("New message from homepage"), "subject")
+            multipartContent.Add (new StringContent(message), "text")
+            request.Content <- multipartContent
             let! resp = httpClient.SendAsync request
             return resp.Content.ReadAsStringAsync()
         }
-        |> Async.AwaitTask
-        |> Async.RunSynchronously
-
-        
