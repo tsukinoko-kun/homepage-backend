@@ -4,35 +4,32 @@ open System
 open Microsoft.AspNetCore.Mvc
 open homepage_backend.Services
 open Microsoft.AspNetCore.Http
+open System.Threading.Tasks
 
 [<ApiController>]
 [<Route("[controller]")>]
-type MessageController (ctx: IHttpContextAccessor) =
+type MessageController () =
     inherit ControllerBase()
 
     [<HttpGet>]
-    member _.Get(mail: string, message: string) =
-        let resp = ctx.HttpContext.Response
+    member _.Get(mail: string, message: string, from: string): Task<IActionResult> =
         task {
             try
                 if String.IsNullOrWhiteSpace(mail) then
-                    resp.StatusCode <- 422
-                    do! resp.WriteAsync "Parameter 'mail' is not specified"
+                    return BadRequestObjectResult "Parameter 'mail' is required"
                 elif String.IsNullOrWhiteSpace(message) then
-                    resp.StatusCode <- 422
-                    do! resp.WriteAsync "Parameter 'message' is not specified"
+                    return BadRequestObjectResult "Parameter 'message' is required"
+                elif String.IsNullOrWhiteSpace(from) then
+                    return BadRequestObjectResult "Parameter 'from' is required"
                 elif message.Length > 512 then
-                    resp.StatusCode <- 414
-                    do! resp.WriteAsync "Parameter 'message' is too long"
+                    return StatusCodeResult 414
                 elif not (mail.Contains '@') then
-                    resp.StatusCode <- 422
-                    do! resp.WriteAsync "Parameter 'mail' is not a valid email address"
+                    return BadRequestObjectResult "Parameter 'mail' must be a valid email address"
                 else
-                    do! MessageService.send (mail, message)
-                        |> resp.WriteAsync
-                    resp.StatusCode <- 302
-                    resp.Headers.Add ("Location", "/")
+                    MessageService.send (mail, message)
+                        |> Async.AwaitTask
+                        |> ignore
+                    return RedirectResult "https://frank-mayer.io"
             with exn ->
-                resp.StatusCode <- 500
-                do! resp.WriteAsync $"{exn.Message}\n{exn.StackTrace}"
+                return BadRequestObjectResult $"{exn.Message}\n{exn.StackTrace}"
         }
